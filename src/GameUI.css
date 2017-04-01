@@ -1,5 +1,17 @@
 .game-ui {
-    width: 500px;
-    height: 500px;
-    border: 1px solid #333;
-} 
+}
+
+.game-ui__cell{
+  border: 1px solid #cacaca;
+  float: left;
+  width: 10px;
+  height: 10px;
+}
+
+.game-ui__cell--selected{
+  background: #eaeaea;
+}
+
+.game-ui__cell--clear{
+  clear: both;
+}
