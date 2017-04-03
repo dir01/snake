@@ -1,11 +1,15 @@
+body{
+  font-size: 16px;
+}
+
 .game-ui {
 }
 
 .game-ui__cell{
   border: 1px solid #cacaca;
   float: left;
-  width: 10px;
-  height: 10px;
+  width: 1em;
+  height: 1em;
 }
 
 .game-ui__cell--selected{
