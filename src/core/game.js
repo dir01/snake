@@ -5,6 +5,8 @@ export default class Game {
         this.width = options.width;
         this.height = options.height;
         this.headPosition = options.headPosition;
+        this.history = [];
+        this.snakeSize = 1;
         this.direction = options.direction;
         this.berryPosition = null;
     }
@@ -18,6 +20,8 @@ export default class Game {
             right: ()=> { p[0]++ },
         }[this.direction];
         action();
+        this.history.push(this.headPosition.slice());
+        this.history = this.history.slice(-this.snakeSize);
         while (!this.berryPosition || isArraysEqual(this.berryPosition, this.headPosition)) {
             this.berryPosition = this._generateBerry(this.width, this.height);
         }

@@ -1,23 +1,67 @@
 import Game from './game';
 
 describe('Game', () => {
-    let game = new Game({
-        width: 3,
-        height: 4,
-        headPosition: [0, 0],
-        direction: 'right'
+
+    describe('initialization', () => {
+        let game = new Game({
+            width: 3,
+            height: 4,
+            headPosition: [0, 0],
+            direction: 'right'
+        });
+        it('initialized properly', () => {
+            expect(game.width).toEqual(3);
+            expect(game.height).toEqual(4);
+            expect(game.direction).toEqual('right');
+            expect(game.headPosition).toEqual([0, 0]);
+            expect(game.snakeSize).toEqual(1);
+        });
     });
 
-    it('initialized properly', () => {
-        expect(game.width).toEqual(3);
-        expect(game.height).toEqual(4);
-        expect(game.direction).toEqual('right');
-        expect(game.headPosition).toEqual([0, 0]);
+    describe('basic movement', () => {
+        let game = new Game({
+            width: 3,
+            height: 4,
+            headPosition: [0, 0],
+            direction: 'right'
+        });
+
+        it('moves one cell right', () => {
+            game.move();
+            expect(game.headPosition).toEqual([1, 0]);
+        });
+
     });
 
-    it('moves one cell right', () => {
-        game.move();
-        expect(game.headPosition).toEqual([1, 0]);
+    describe('game history', () => {
+
+        it('stores the history with length 1', () => {
+            let game = new Game({
+                width: 3,
+                height: 4,
+                headPosition: [0, 0],
+                direction: 'right'
+            });
+            game.move();
+            expect(game.history).toEqual([[1, 0]]);
+            game.move();
+            expect(game.history).toEqual([[2, 0]]);
+        });
+
+        it('stores the history with length 2', () => {
+            let game = new Game({
+                width: 3,
+                height: 4,
+                headPosition: [0, 0],
+                direction: 'right'
+            });
+            game.move();
+            expect(game.history).toEqual([[1, 0]]);
+            game.snakeSize = 2;
+            game.move();
+            expect(game.history).toEqual([[1, 0], [2, 0]]);
+        });
+
     });
 
     describe('game over', () => {
