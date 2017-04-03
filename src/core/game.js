@@ -35,7 +35,7 @@ export default class Game {
     }
 
     _generateBerry(width, height) {
-        return [randInt(0, width), randInt(0, height)];
+        return [randInt(0, width-1), randInt(0, height-1)];
     }
 
     get isOver() {
