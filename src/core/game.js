@@ -5,7 +5,7 @@ export default class Game {
         this.width = options.width;
         this.height = options.height;
         this.headPosition = options.headPosition;
-        this.history = [];
+        this.history = [this.headPosition.slice()];
         this.snakeSize = 1;
         this.direction = options.direction;
         this.berryPosition = null;
@@ -20,7 +20,6 @@ export default class Game {
             right: ()=> { p[0]++ },
         }[this.direction];
 
-        this.history.push(this.headPosition.slice());
         action();
         this.history.push(this.headPosition.slice());
 

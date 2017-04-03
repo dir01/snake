@@ -67,7 +67,7 @@ describe('Game', () => {
     });
 
     describe('game over', () => {
-        let game = new Game({width: 2, height: 2});
+        let game = new Game({width: 2, height: 2, headPosition: [0, 0]});
 
         it('moves beyond upper edge', () => {
             game.headPosition = [1, 0];
@@ -149,12 +149,18 @@ describe('Game', () => {
 
         it('should eat a berry', () => {
             game.berryPosition = [1, 0];
-            expect(game.berryPosition).toEqual([1, 0]);
             game.move();
+            expect(game.headPosition).toEqual([1, 0]);
             expect(game.snakeSize).toEqual(2);
             expect(game.history).toEqual([[0, 0], [1, 0]]);
             expect(game.berryPosition.length).toEqual(2);
-            expect(game.berryPosition).not.toEqual([1, 0])
+            expect(game.berryPosition).not.toEqual([1, 0]);
+
+            game.berryPosition = [2, 0];
+            game.move();
+            expect(game.headPosition).toEqual([2, 0]);
+            expect(game.snakeSize).toEqual(3);
+            expect(game.history).toEqual([[0, 0], [1, 0], [2, 0]]);
         });
 
     });
