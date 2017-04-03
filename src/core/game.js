@@ -1,20 +1,30 @@
+import {isArraysEqual, randInt} from './utils';
+
 export default class Game {
-    constructor (options) {
-      this.width = options.width;
-      this.height = options.height;
-      this.headPosition = options.headPosition;
-      this.direction = options.direction;
+    constructor(options) {
+        this.width = options.width;
+        this.height = options.height;
+        this.headPosition = options.headPosition;
+        this.direction = options.direction;
+        this.berryPosition = null;
     }
 
-    move () {
+    move() {
         let p = this.headPosition;
         let action = {
-            up: ()=>{p[1]--},
-            down: ()=>{p[1]++},
-            left: ()=>{p[0]--},
-            right: ()=>{p[0]++},
+            up: ()=> { p[1]-- },
+            down: ()=> { p[1]++ },
+            left: ()=> { p[0]-- },
+            right: ()=> { p[0]++ },
         }[this.direction];
         action();
+        while (!this.berryPosition || isArraysEqual(this.berryPosition, this.headPosition)) {
+            this.berryPosition = this._generateBerry(this.width, this.height);
+        }
+    }
+
+    _generateBerry(width, height) {
+        return [randInt(0, width), randInt(0, height)];
     }
 
     get isOver() {
