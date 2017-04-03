@@ -12,7 +12,7 @@ describe('Game', () => {
         it('initialized properly', () => {
             expect(game.width).toEqual(3);
             expect(game.height).toEqual(4);
-            expect(game.direction).toEqual('right');
+            expect(game._direction).toEqual('right');
             expect(game.headPosition).toEqual([0, 0]);
             expect(game.snakeSize).toEqual(1);
         });
@@ -71,7 +71,7 @@ describe('Game', () => {
 
         it('moves beyond upper edge', () => {
             game.headPosition = [1, 0];
-            game.direction = 'up';
+            game._direction = 'up';
             game.move();
             expect(game.headPosition).toEqual([1, -1]);
             expect(game.isOver).toBeTruthy();
@@ -79,7 +79,7 @@ describe('Game', () => {
 
         it('moves beyond left edge', () => {
             game.headPosition = [0, 0];
-            game.direction = 'left';
+            game._direction = 'left';
             game.move();
             expect(game.headPosition).toEqual([-1, 0]);
             expect(game.isOver).toBeTruthy();
@@ -87,7 +87,7 @@ describe('Game', () => {
 
         it('moves beyond right edge', () => {
             game.headPosition = [game.width - 1, 0];
-            game.direction = 'right';
+            game._direction = 'right';
             game.move();
             expect(game.headPosition).toEqual([game.width, 0]);
             expect(game.isOver).toBeTruthy();
@@ -95,7 +95,7 @@ describe('Game', () => {
 
         it('moves beyond bottom edge', () => {
             game.headPosition = [0, game.height - 1];
-            game.direction = 'down';
+            game._direction = 'down';
             game.move();
             expect(game.headPosition).toEqual([0, game.height]);
             expect(game.isOver).toBeTruthy();
@@ -130,7 +130,7 @@ describe('Game', () => {
 
         it('cannot generate berry at the head position generates new position', () => {
             game.headPosition = [5, 6];
-            game.direction = 'right';
+            game._direction = 'right';
             game.berryPosition = null;
             game._generateBerry = jest.fn().mockReturnValueOnce([6, 6]).mockReturnValue([1, 2]);
             game.move();
@@ -164,6 +164,49 @@ describe('Game', () => {
         });
 
     });
+
+    describe('snake direction change', () => {
+        let game = new Game({
+            width: 10,
+            height: 10,
+            headPosition: [4, 4],
+            direction: 'right',
+        });
+
+        it('saves direction between moves', () => {
+          game.move();
+          expect(game.oldDirection).toEqual('right');
+        });
+
+        it('cant move from left to right', () => {
+            game._direction = 'left';
+            game.oldDirection = 'left';
+            game.direction = 'right';
+            expect(game.direction).toEqual('left');
+        });
+
+        it('cant move from right to left', () => {
+            game._direction = 'right';
+            game.oldDirection = 'right';
+            game.direction = 'left';
+            expect(game.direction).toEqual('right');
+        });
+
+        it('cant move from up to down', () => {
+            game._direction = 'up';
+            game.oldDirection = 'up';
+            game.direction = 'down';
+            expect(game.direction).toEqual('up');
+        });
+
+        it('cant move from down to up', () => {
+            game._direction = 'down';
+            game.oldDirection = 'down';
+            game.direction = 'up';
+            expect(game.direction).toEqual('down');
+        })
+
+    })
 
 });
 

@@ -7,8 +7,20 @@ export default class Game {
         this.headPosition = options.headPosition;
         this.history = [this.headPosition.slice()];
         this.snakeSize = 1;
-        this.direction = options.direction;
+        this._direction = options.direction;
         this.berryPosition = null;
+    }
+
+    get direction() {return this._direction}
+
+    set direction(newDirection) {
+        if (newDirection === {
+            left: 'right',
+            right: 'left',
+            up: 'down',
+            down: 'up'
+        }[this.oldDirection]) return;
+        this._direction = newDirection;
     }
 
     move() {
@@ -31,10 +43,12 @@ export default class Game {
         while (!this.berryPosition || isArraysEqual(this.berryPosition, this.headPosition)) {
             this.berryPosition = this._generateBerry(this.width, this.height);
         }
+
+        this.oldDirection = this.direction;
     }
 
     _generateBerry(width, height) {
-        return [randInt(0, width-1), randInt(0, height-1)];
+        return [randInt(0, width - 1), randInt(0, height - 1)];
     }
 
     get isOver() {
