@@ -12,6 +12,10 @@
   background: #eaeaea;
 }
 
+.game-ui__cell--berry{
+  background: #C2271D;
+}
+
 .game-ui__cell--clear{
   clear: both;
 }

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Game from './core/game';
 import './GameUI.css';
+import classnames from 'classnames';
+import {isArraysEqual} from './core/utils';
 
 export default class GameUI extends Component {
 
@@ -36,11 +38,22 @@ export default class GameUI extends Component {
         for (var i = 0; i < this.game.height; i++) {
             var row = [];
             for (var j = 0; j < this.game.width; j++) {
-                var hp = this.game.headPosition;
-                let isSelected = (i === hp[1] && j === hp[0]) ? 'game-ui__cell--selected' : '';
+                let isSelected = ((history) => {
+                    for (var c in history) {
+                        if (isArraysEqual(history[c], [j, i])) {
+                            return true;
+                        }
+                    }
+                })(this.game.history);
+                let isBerry = this.game.berryPosition
+                    && isArraysEqual(this.game.berryPosition, [j, i]);
+                let className = classnames('game-ui__cell', {
+                    'game-ui__cell--selected': isSelected,
+                    'game-ui__cell--berry': isBerry
+                });
                 row.push(<div
                     key={`${i}-${j}`}
-                    className={`game-ui__cell ${isSelected}`}></div>);
+                    className={className}></div>);
             }
             rows.push(row, <div key={`${i}`} className="game-ui__cell--clear"></div>);
         }
