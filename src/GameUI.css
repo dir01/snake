@@ -3,6 +3,7 @@ body{
 }
 
 .game-ui {
+  border: 1px solid #cacaca;
 }
 
 .game-ui__cell{
