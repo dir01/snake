@@ -34,22 +34,24 @@ export default class GameUI extends Component {
     }
 
     renderGame() {
+        let isSelected = (cell) => {
+            let history = this.game.history;
+            for (var c in history) {
+                if (isArraysEqual(history[c], cell)) {
+                    return true;
+                }
+            }
+        };
+        let isBerry = (cell) => {
+            return this.game.berryPosition && isArraysEqual(this.game.berryPosition, cell);
+        };
         var rows = [];
         for (var i = 0; i < this.game.height; i++) {
             var row = [];
             for (var j = 0; j < this.game.width; j++) {
-                let isSelected = ((history) => {
-                    for (var c in history) {
-                        if (isArraysEqual(history[c], [j, i])) {
-                            return true;
-                        }
-                    }
-                })(this.game.history);
-                let isBerry = this.game.berryPosition
-                    && isArraysEqual(this.game.berryPosition, [j, i]);
                 let className = classnames('game-ui__cell', {
-                    'game-ui__cell--selected': isSelected,
-                    'game-ui__cell--berry': isBerry
+                    'game-ui__cell--selected': isSelected([j, i]),
+                    'game-ui__cell--berry': isBerry([j, i])
                 });
                 row.push(<div
                     key={`${i}-${j}`}
