@@ -60,6 +60,8 @@ describe('Game', () => {
             game.snakeSize = 2;
             game.move();
             expect(game.history).toEqual([[1, 0], [2, 0]]);
+            game.move();
+            expect(game.history).toEqual([[2, 0], [3, 0]]);
         });
 
     });
@@ -136,6 +138,26 @@ describe('Game', () => {
         });
     });
 
+    describe('berry consuming', () => {
+
+        let game = new Game({
+            width: 10,
+            height: 10,
+            headPosition: [0, 0],
+            direction: 'right',
+        });
+
+        it('should eat a berry', () => {
+            game.berryPosition = [1, 0];
+            expect(game.berryPosition).toEqual([1, 0]);
+            game.move();
+            expect(game.snakeSize).toEqual(2);
+            expect(game.history).toEqual([[0, 0], [1, 0]]);
+            expect(game.berryPosition.length).toEqual(2);
+            expect(game.berryPosition).not.toEqual([1, 0])
+        });
+
+    });
 
 });
 
