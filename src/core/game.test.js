@@ -67,7 +67,7 @@ describe('Game', () => {
     });
 
     describe('game over', () => {
-        let game = new Game({width: 2, height: 2, headPosition: [0, 0]});
+        let game = new Game({width: 3, height: 3, headPosition: [0, 0]});
 
         it('moves beyond upper edge', () => {
             game.headPosition = [1, 0];
@@ -99,6 +99,22 @@ describe('Game', () => {
             game.move();
             expect(game.headPosition).toEqual([0, game.height]);
             expect(game.isOver).toBeTruthy();
+        });
+
+        it('collides with itself', () => {
+          game.snakeSize = 4;
+          game.history = [[0, 0], [0, 1], [0, 2], [1, 2], [1, 1]];
+          game._direction = 'left';
+          game.move();
+          expect(game.isOver).toBeTruthy();
+        });
+
+        it('does not end otherwise', () => {
+          game.headPosition = [0, 0];
+          game.history = [[0, 0]];
+          game._direction = 'right';
+          game.move();
+          expect(game.isOver).toBeFalsy();
         });
     });
 

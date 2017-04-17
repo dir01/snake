@@ -11,18 +11,6 @@ export default class Game {
         this.berryPosition = null;
     }
 
-    get direction() {return this._direction}
-
-    set direction(newDirection) {
-        if (newDirection === {
-            left: 'right',
-            right: 'left',
-            up: 'down',
-            down: 'up'
-        }[this.oldDirection]) return;
-        this._direction = newDirection;
-    }
-
     move() {
         let p = this.headPosition;
         let action = {
@@ -47,22 +35,35 @@ export default class Game {
         this.oldDirection = this.direction;
     }
 
+    get isOver() {
+        let hp = this.headPosition;
+        let isInHistory = this.history.slice(0, -1).some((p) => isArraysEqual(p, hp));
+        return isInHistory || (
+                hp[1] < 0
+                || hp[1] >= this.height
+                || hp[0] < 0
+                || hp[0] >= this.width
+            );
+    }
+
+    get direction() {return this._direction}
+
+    set direction(newDirection) {
+        if (newDirection === {
+            left: 'right',
+            right: 'left',
+            up: 'down',
+            down: 'up'
+        }[this.oldDirection]) return;
+        this._direction = newDirection;
+    }
+
     _isInHistory(position) {
         return position && this.history.some((p) => isArraysEqual(p, position));
     }
 
     _generateBerry(width, height) {
         return [randInt(0, width - 1), randInt(0, height - 1)];
-    }
-
-    get isOver() {
-        let hp = this.headPosition;
-        return (
-            hp[1] < 0
-            || hp[1] >= this.height
-            || hp[0] < 0
-            || hp[0] >= this.width
-        );
     }
 
 }
