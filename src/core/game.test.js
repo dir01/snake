@@ -136,6 +136,19 @@ describe('Game', () => {
             game.move();
             expect(game.berryPosition).toEqual([1, 2]);
         });
+
+        it('cannot generate berry at the snake generates new position', function() {
+            game.foo = 1;
+            game.headPosition = [5, 6];
+            game.history = [[5, 6]];
+            game.snakeSize = 2;
+            game._direction = 'right';
+            game.berryPosition = null;
+            game._generateBerry = jest.fn().mockReturnValueOnce([5, 6]).mockReturnValue([1, 2]);
+            game.move();
+            expect(game.berryPosition).toEqual([1, 2]);
+        });
+
     });
 
     describe('berry consuming', () => {
@@ -204,7 +217,7 @@ describe('Game', () => {
             game.oldDirection = 'down';
             game.direction = 'up';
             expect(game.direction).toEqual('down');
-        })
+        });
 
     })
 
